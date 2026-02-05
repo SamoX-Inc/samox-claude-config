@@ -1,6 +1,6 @@
-# SamoX Claude Skills
+# SamoX Claude Config
 
-Claude Code用のカスタムスキル集です。
+Claude Code用のカスタムスキル、エージェント、設定ファイルのリポジトリです。
 
 ## スキル一覧
 
@@ -18,7 +18,24 @@ Notionページのタスク内容を読み取り、開発方針設計書（Logic
 /notion-plan https://www.notion.so/your-page-url
 ```
 
-詳細は [notion-plan/SKILL.md](./notion-plan/SKILL.md) を参照してください。
+詳細は [notion-plan/SKILL.md](./skills/notion-plan/SKILL.md) を参照してください。
+
+## エージェント一覧
+
+### notion-task-implementer
+
+会話フロー設計書に基づいて機能を実装し、コミットを作成し、NotionタスクIDをプレフィックスとしたPRをdevブランチに作成するエージェントです。
+
+**機能:**
+- NotionタスクID（SX-XXX形式）を取得
+- 会話フロー設計書を読み込んで実装
+- タスクIDをプレフィックスとしたコミットを作成
+- devブランチへのPRを作成
+
+**使用方法:**
+Task toolを使用してこのエージェントを起動し、NotionタスクIDを指定します。
+
+詳細は [agents/notion-task-implementer.md](./agents/notion-task-implementer.md) を参照してください。
 
 ## インストール方法
 
@@ -33,26 +50,33 @@ Notionページのタスク内容を読み取り、開発方針設計書（Logic
 
 ```bash
 cd ~/projects  # または任意のディレクトリ
-git clone https://github.com/SamoX-Inc/samox-claude-skills.git
+git clone https://github.com/SamoX-Inc/samox-claude-config.git
 ```
 
-2. 使いたいスキルへのシンボリックリンクを作成します:
+2. 使いたいスキルやエージェントへのシンボリックリンクを作成します:
 
 ```bash
-# notion-planをインストールする場合
-ln -s ~/projects/samox-claude-skills/notion-plan ~/.claude/skills/notion-plan
+# スキルをインストール（例: notion-plan）
+ln -s ~/projects/samox-claude-config/skills/notion-plan ~/.claude/skills/notion-plan
+
+# エージェントをインストール（例: notion-task-implementer）
+ln -s ~/projects/samox-claude-config/agents/notion-task-implementer.md ~/.claude/agents/notion-task-implementer.md
 ```
 
 3. Claude Codeを再起動するか、新しいセッションを開始します。
 
-4. `/notion-plan` コマンドで使用できるようになります。
+4. スキルは `/notion-plan` コマンド、エージェントはTask toolから使用できるようになります。
 
-## スキルのアンインストール
+## アンインストール
 
 シンボリックリンクを削除するだけです:
 
 ```bash
+# スキルのアンインストール
 rm ~/.claude/skills/notion-plan
+
+# エージェントのアンインストール
+rm ~/.claude/agents/notion-task-implementer.md
 ```
 
 ## 開発者向け
