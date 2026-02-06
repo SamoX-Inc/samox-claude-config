@@ -37,12 +37,48 @@ Task toolを使用してこのエージェントを起動し、NotionタスクID
 
 詳細は [agents/notion-task-implementer.md](./agents/notion-task-implementer.md) を参照してください。
 
+### linear-task-plan
+
+LinearイシューのタスクIDを受け取り、タスク内容を分析して開発方針設計書（Logic Design Brief）を生成し、Linearイシューにコメントとして投稿するエージェントです。
+
+**機能:**
+- LinearタスクID（SX-XXX形式）からイシュー内容を取得
+- タスク内容を分析して構造化された設計書を自動生成
+- 生成した設計書をLinearイシューにコメントとして投稿
+
+**使用方法:**
+Task toolを使用してこのエージェントを起動し、LinearタスクIDを指定します。
+
+**前提条件:**
+- Linear MCP serverが設定されていること
+
+詳細は [agents/linear-task-plan.md](./agents/linear-task-plan.md) を参照してください。
+
+### linear-task-implementer
+
+LinearイシューのIDを受け取り、イシューの概要とコメント（設計書を含む）を読み取って要件を理解し、実装してdevブランチへのPRを作成するエージェントです。
+
+**機能:**
+- LinearタスクID（SX-XXX形式）からイシュー内容とコメントを取得
+- 開発方針設計書（コメント内）を読み取って要件を理解
+- Linearが生成したgitブランチ名を使用して実装
+- タスクIDをプレフィックスとしたコミット・PRを作成
+
+**使用方法:**
+Task toolを使用してこのエージェントを起動し、LinearタスクIDを指定します。
+
+**前提条件:**
+- Linear MCP serverが設定されていること
+
+詳細は [agents/linear-task-implementer.md](./agents/linear-task-implementer.md) を参照してください。
+
 ## インストール方法
 
 ### 前提条件
 
 - Claude Code CLIがインストールされていること
 - Notion MCP serverが設定されていること（notion-planを使用する場合）
+- Linear MCP serverが設定されていること（linear-task-plan, linear-task-implementerを使用する場合）
 
 ### インストール手順
 
@@ -61,6 +97,12 @@ ln -s ~/projects/samox-claude-config/skills/notion-plan ~/.claude/skills/notion-
 
 # エージェントをインストール（例: notion-task-implementer）
 ln -s ~/projects/samox-claude-config/agents/notion-task-implementer.md ~/.claude/agents/notion-task-implementer.md
+
+# エージェントをインストール（例: linear-task-plan）
+ln -s ~/projects/samox-claude-config/agents/linear-task-plan.md ~/.claude/agents/linear-task-plan.md
+
+# エージェントをインストール（例: linear-task-implementer）
+ln -s ~/projects/samox-claude-config/agents/linear-task-implementer.md ~/.claude/agents/linear-task-implementer.md
 ```
 
 3. Claude Codeを再起動するか、新しいセッションを開始します。
